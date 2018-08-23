@@ -1,0 +1,9 @@
+pipeline:
+  build-and-push:
+    image: plugins/docker
+    repo: fpfis/virtuoso
+    auto_tag: true
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    when:
+      event: [ push, tag ]
+      branch: master
