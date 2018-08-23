@@ -62,6 +62,16 @@ then
     echo "`date +%Y-%m-%dT%H:%M:%S%:z`" > .data_loaded
 fi
 
+
+if [ ! -f ".data_loaded" -x "/import.sh" ] ;
+then
+    echo "Start data loading from script"
+    virtuoso-t +wait
+    /import.sh
+    kill $(ps aux | grep '[v]irtuoso-t' | awk '{print $2}')
+    echo "`date +%Y-%m-%dT%H:%M:%S%:z`" > .data_loaded
+fi
+
 crudini --set virtuoso.ini HTTPServer ServerPort ${VIRT_HTTPServer_ServerPort:-$original_port}
 
 exec virtuoso-t +wait +foreground
